@@ -12,6 +12,8 @@ public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
 {
     public const int ItemSaveSize = 3000;
 
+    private readonly bool IsMegaDimensionV2 = sav.IsMegaDimensionV2;
+
     private Span<byte> GetItemSpan(ushort itemIndex) => InventoryPouch9a.GetItemSpan(Data, itemIndex);
 
     public uint DefaultInitPouch => ReadUInt32LittleEndian(Data); // Item 0
@@ -31,16 +33,22 @@ public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
 
     public void SetItemQuantity(ushort itemIndex, int quantity)
     {
-        var pouch = GetPouchIndex(GetType(itemIndex));
+        var type = GetType(itemIndex);
+        var pouch = GetPouchIndex(type);
         if (pouch == InventoryItem9a.PouchNone)
         {
             DeleteItem(itemIndex); // don't allow setting items that don't exist
             return;
         }
+
+        // Clamp to item-specific max
+        var itemMax = ItemStorage9ZA.Instance.GetMax(type, itemIndex, IsMegaDimensionV2);
+        quantity = Math.Min(quantity, itemMax);
+
         var span = GetItemSpan(itemIndex);
         var item = InventoryItem9a.Read(itemIndex, span);
         item.Count = quantity;
-        item.Pouch = GetPouchIndex(GetType(itemIndex));
+        item.Pouch = pouch;
 
         if (item.IsNewNotify && quantity != 0)
         {
@@ -110,10 +118,20 @@ public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
             WriteUInt32LittleEndian(block[i..], defaultPouch);
     }
 
-    private static InventoryPouch9a MakePouch(InventoryType type)
+    private InventoryPouch9a MakePouch(InventoryType type)
     {
         var info = ItemStorage9ZA.Instance;
         var max = info.GetMax(type);
+
+        // Check for items with higher max (Currently only Mega Shards)
+        var items = info.GetItems(type);
+        foreach (var item in items)
+        {
+            var itemMax = info.GetMax(type, item, IsMegaDimensionV2);
+            if (itemMax > max)
+                max = itemMax;
+        }
+
         return new InventoryPouch9a(type, info, max, GetPouchIndex(type));
     }
 

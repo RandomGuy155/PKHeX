@@ -126,17 +126,26 @@ public sealed class ItemStorage9ZA : IItemStorage
         2640, // Garchompite Z
     ];
 
-    public int GetMax(InventoryType type) => type switch
+    public int GetMax(InventoryType type) => GetMax(type, 0);
+
+    public int GetMax(InventoryType type, int itemIndex, bool isMegaDimensionV2 = false) => itemIndex switch
     {
-        InventoryType.Medicine => 999,
-        InventoryType.Balls => 999,
-        InventoryType.Berries => 999,
-        InventoryType.Items => 999, // Other
-        InventoryType.TMHMs => 1,
-        InventoryType.MegaStones => 1,
-        InventoryType.Treasure => 999,
-        InventoryType.KeyItems => 1,
-        _ => throw new ArgumentOutOfRangeException(nameof(type)),
+        // Special case for Mega Shard being 9999
+        2618 when isMegaDimensionV2 => 9999,
+
+        // Default to type-based max
+        _ => type switch
+        {
+            InventoryType.Medicine => 999,
+            InventoryType.Balls => 999,
+            InventoryType.Berries => 999,
+            InventoryType.Items => 999, // Other
+            InventoryType.TMHMs => 1,
+            InventoryType.MegaStones => 1,
+            InventoryType.Treasure => 999,
+            InventoryType.KeyItems => 1,
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
+        }
     };
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => !Unreleased.Contains((ushort)itemIndex);

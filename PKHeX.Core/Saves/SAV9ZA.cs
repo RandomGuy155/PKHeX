@@ -7,11 +7,13 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {LastSaved.DisplayValue}";
     public override string Extension => string.Empty;
+    public bool IsMegaDimensionV2 { get; }
 
-    public SAV9ZA(Memory<byte> data) : this(SwishCrypto.Decrypt(data.Span)) { }
+    public SAV9ZA(Memory<byte> data) : this(SwishCrypto.Decrypt(data.Span), data.Length == 0x309FB3) { }
 
-    private SAV9ZA(IReadOnlyList<SCBlock> blocks) : base(Memory<byte>.Empty)
+    private SAV9ZA(IReadOnlyList<SCBlock> blocks, bool isMegaDimensionV2 = false) : base(Memory<byte>.Empty)
     {
+        IsMegaDimensionV2 = isMegaDimensionV2;
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor9ZA(this);
         Initialize();
@@ -47,6 +49,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     public string SaveRevisionString => SaveRevision switch
     {
         0 => "-Base", // Vanilla
+        1 when IsMegaDimensionV2 => "-MD2", // Mega Dimension v2.0.1
         1 => "-MD", // Mega Dimension
         _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
     };
@@ -88,7 +91,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
         var blockCopy = new SCBlock[AllBlocks.Count];
         for (int i = 0; i < AllBlocks.Count; i++)
             blockCopy[i] = AllBlocks[i].Clone();
-        return new(blockCopy);
+        return new(blockCopy, IsMegaDimensionV2);
     }
 
     private ushort m_spec, m_item, m_move, m_abil;

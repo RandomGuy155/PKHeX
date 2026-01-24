@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Controls;
@@ -114,6 +115,7 @@ public sealed partial class SAV_Inventory : Form
     {
         // Add DataGrid
         var dgv = GetBaseDataGrid(pouch);
+        dgv.CellValidating += DGV_CellValidating;
 
         // Get Columns
         var item = GetItemColumn(ColumnItem = dgv.Columns.Count);
@@ -191,11 +193,51 @@ public sealed partial class SAV_Inventory : Form
             HeaderText = name,
             DisplayIndex = c,
             Width = 45,
-            DefaultCellStyle = {Alignment = DataGridViewContentAlignment.MiddleCenter},
+            DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter },
         };
         if (!HaX)
             dgvIndex.MaxInputLength = (int)(Math.Log10(Math.Max(1, pouch.MaxCount)) + 1);
         return dgvIndex;
+    }
+
+    private void DGV_CellValidating(object? sender, DataGridViewCellValidatingEventArgs e)
+    {
+        if (sender is not DataGridView dgv)
+            return;
+
+        // Only validate the Count column
+        if (e.ColumnIndex != ColumnCount)
+            return;
+
+        // Get the item index from the Item column
+        var itemCell = dgv.Rows[e.RowIndex].Cells[ColumnItem];
+        if (itemCell.Value is not string itemName)
+            return;
+
+        var itemIndex = itemlist.IndexOf(itemName);
+        if (itemIndex <= 0)
+            return;
+
+        // Validate count against item-specific max
+        if (!int.TryParse(e.FormattedValue?.ToString(), out int count))
+            return;
+
+        var pouchIndex = Array.FindIndex(Pouches.ToArray(), p => ControlGrids[p.Type] == dgv);
+        if (pouchIndex < 0)
+            return;
+
+        var pouch = Pouches[pouchIndex];
+        if (pouch.Info is ItemStorage9ZA storage)
+        {
+            var itemMax = storage.GetMax(pouch.Type, (ushort)itemIndex, SAV is SAV9ZA { IsMegaDimensionV2: true });
+            if (count > itemMax)
+            {
+                Task.Run(async () =>
+                {
+                    dgv.Invoke(() => dgv.Rows[e.RowIndex].Cells[ColumnCount].Value = itemMax);
+                });
+            }
+        }
     }
 
     private void LoadAllBags()
