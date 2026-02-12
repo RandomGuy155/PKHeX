@@ -166,4 +166,42 @@ public static class SearchUtil
         result = default;
         return false;
     }
+
+    public static bool TrySeekPrevious(SaveFile sav, Func<PKM, bool> searchFilter, out (int Box, int Slot) result, int current = -1)
+    {
+        // Search from previous box, wrapping around backwards
+        var boxCount = sav.BoxCount;
+        var boxSlotCount = sav.BoxSlotCount;
+
+        // Start from the previous box, wrapping to the end if needed
+        var startBox = current - 1;
+        if (startBox < 0)
+            startBox = boxCount - 1;
+
+        for (int i = 0; i < boxCount; i++)
+        {
+            var box = startBox - i;
+            if (box < 0)
+                box += boxCount; // Wrap around
+
+            // Search slots in reverse order
+            for (int slot = boxSlotCount - 1; slot >= 0; slot--)
+            {
+                var pk = sav.GetBoxSlotAtIndex(box, slot);
+                if (pk.Species == 0)
+                    continue;
+
+                if (!searchFilter(pk))
+                    continue;
+
+                // Match found. Seek to the box, and Focus on the slot.
+                result = (box, slot);
+                return true;
+            }
+        }
+
+        // None found.
+        result = default;
+        return false;
+    }
 }

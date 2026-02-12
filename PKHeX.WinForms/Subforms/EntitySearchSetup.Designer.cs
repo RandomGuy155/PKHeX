@@ -35,12 +35,16 @@ namespace PKHeX.WinForms
             Tab_Advanced = new System.Windows.Forms.TabPage();
             B_Add = new System.Windows.Forms.Button();
             RTB_Instructions = new System.Windows.Forms.RichTextBox();
+            FLP_NavigationButtons = new System.Windows.Forms.FlowLayoutPanel();
+            B_Previous = new System.Windows.Forms.Button();
             B_Search = new System.Windows.Forms.Button();
+            B_Next = new System.Windows.Forms.Button();
             B_Reset = new System.Windows.Forms.Button();
             TLP_Main.SuspendLayout();
             TC_SearchSettings.SuspendLayout();
             Tab_General.SuspendLayout();
             Tab_Advanced.SuspendLayout();
+            FLP_NavigationButtons.SuspendLayout();
             SuspendLayout();
             // 
             // TLP_Main
@@ -48,7 +52,7 @@ namespace PKHeX.WinForms
             TLP_Main.ColumnCount = 1;
             TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             TLP_Main.Controls.Add(TC_SearchSettings, 0, 0);
-            TLP_Main.Controls.Add(B_Search, 0, 1);
+            TLP_Main.Controls.Add(FLP_NavigationButtons, 0, 1);
             TLP_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             TLP_Main.Location = new System.Drawing.Point(0, 0);
             TLP_Main.Margin = new System.Windows.Forms.Padding(0);
@@ -59,11 +63,27 @@ namespace PKHeX.WinForms
             TLP_Main.Size = new System.Drawing.Size(320, 540);
             TLP_Main.TabIndex = 0;
             // 
+            // FLP_NavigationButtons
+            // 
+            FLP_NavigationButtons.AutoSize = true;
+            FLP_NavigationButtons.Controls.Add(B_Previous);
+            FLP_NavigationButtons.Controls.Add(B_Search);
+            FLP_NavigationButtons.Controls.Add(B_Next);
+            FLP_NavigationButtons.Dock = System.Windows.Forms.DockStyle.Fill;
+            FLP_NavigationButtons.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
+            FLP_NavigationButtons.Location = new System.Drawing.Point(0, 510);
+            FLP_NavigationButtons.Margin = new System.Windows.Forms.Padding(0);
+            FLP_NavigationButtons.Name = "FLP_NavigationButtons";
+            FLP_NavigationButtons.Size = new System.Drawing.Size(320, 30);
+            FLP_NavigationButtons.TabIndex = 4;
+            FLP_NavigationButtons.WrapContents = false;
+            // 
             // TC_SearchSettings
             // 
             TC_SearchSettings.Controls.Add(Tab_General);
             TC_SearchSettings.Controls.Add(Tab_Advanced);
             TC_SearchSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            TC_SearchSettings.ItemSize = new System.Drawing.Size(52, 23);
             TC_SearchSettings.Location = new System.Drawing.Point(0, 0);
             TC_SearchSettings.Margin = new System.Windows.Forms.Padding(0);
             TC_SearchSettings.Name = "TC_SearchSettings";
@@ -129,25 +149,46 @@ namespace PKHeX.WinForms
             RTB_Instructions.TabIndex = 0;
             RTB_Instructions.Text = "";
             // 
+            // B_Previous
+            // 
+            B_Previous.Location = new System.Drawing.Point(0, 0);
+            B_Previous.Margin = new System.Windows.Forms.Padding(0);
+            B_Previous.Name = "B_Previous";
+            B_Previous.Size = new System.Drawing.Size(75, 30);
+            B_Previous.TabIndex = 4;
+            B_Previous.Text = "Previous";
+            B_Previous.UseVisualStyleBackColor = true;
+            B_Previous.Click += B_Previous_Click;
+            // 
             // B_Search
             // 
-            B_Search.Dock = System.Windows.Forms.DockStyle.Fill;
-            B_Search.Location = new System.Drawing.Point(0, 510);
+            B_Search.Location = new System.Drawing.Point(75, 0);
             B_Search.Margin = new System.Windows.Forms.Padding(0);
             B_Search.Name = "B_Search";
-            B_Search.Size = new System.Drawing.Size(320, 30);
+            B_Search.Size = new System.Drawing.Size(170, 30);
             B_Search.TabIndex = 3;
             B_Search.Text = "Search!";
             B_Search.UseVisualStyleBackColor = true;
             B_Search.Click += B_Search_Click;
             // 
+            // B_Next
+            // 
+            B_Next.Location = new System.Drawing.Point(245, 0);
+            B_Next.Margin = new System.Windows.Forms.Padding(0);
+            B_Next.Name = "B_Next";
+            B_Next.Size = new System.Drawing.Size(75, 30);
+            B_Next.TabIndex = 5;
+            B_Next.Text = "Next";
+            B_Next.UseVisualStyleBackColor = true;
+            B_Next.Click += B_Next_Click;
+            // 
             // B_Reset
             // 
             B_Reset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            B_Reset.Location = new System.Drawing.Point(214, 0);
+            B_Reset.Location = new System.Drawing.Point(214, 1);
             B_Reset.Margin = new System.Windows.Forms.Padding(0);
             B_Reset.Name = "B_Reset";
-            B_Reset.Size = new System.Drawing.Size(104, 27);
+            B_Reset.Size = new System.Drawing.Size(104, 23);
             B_Reset.TabIndex = 0;
             B_Reset.Text = "Reset Filters";
             B_Reset.UseVisualStyleBackColor = true;
@@ -168,15 +209,20 @@ namespace PKHeX.WinForms
             Text = "Search";
             KeyDown += OnKeyDown;
             TLP_Main.ResumeLayout(false);
+            TLP_Main.ResumeLayout(true);
             TC_SearchSettings.ResumeLayout(false);
             Tab_General.ResumeLayout(false);
             Tab_Advanced.ResumeLayout(false);
+            FLP_NavigationButtons.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel TLP_Main;
+        private System.Windows.Forms.FlowLayoutPanel FLP_NavigationButtons;
+        private System.Windows.Forms.Button B_Previous;
+        private System.Windows.Forms.Button B_Next;
         private System.Windows.Forms.Button B_Reset;
         private System.Windows.Forms.TabControl TC_SearchSettings;
         private System.Windows.Forms.TabPage Tab_General;

@@ -10,6 +10,7 @@ public partial class EntitySearchSetup : Form
 {
     private EntityInstructionBuilder? UC_Builder;
     private SaveFile? CurrentSave;
+    private SAVEditor? SaveEditor;
     public Func<PKM, bool>? SearchFilter { get; private set; }
 
     public EntitySearchSetup()
@@ -33,7 +34,7 @@ public partial class EntitySearchSetup : Form
     /// </summary>
     /// <param name="sav">Save file used to configure search settings.</param>
     /// <param name="edit">Editor to provide the current PKM.</param>
-    public void Initialize(SaveFile sav, IPKMView edit)
+    public void Initialize(SaveFile sav, IPKMView edit, SAVEditor savEditor)
     {
         ArgumentNullException.ThrowIfNull(sav);
 
@@ -43,6 +44,7 @@ public partial class EntitySearchSetup : Form
         UC_EntitySearch.SetFormatAnyText(MsgAny);
         UC_EntitySearch.FormatComparatorSelectedIndex = 3; // <=
         CurrentSave = sav;
+        SaveEditor = savEditor;
         EnsureBuilder(edit);
     }
 
@@ -50,10 +52,21 @@ public partial class EntitySearchSetup : Form
     {
         base.OnShown(e);
         UC_EntitySearch.ResetComboBoxSelections();
+        ActiveControl = RTB_Instructions;
     }
 
     private void OnKeyDown(object sender, KeyEventArgs e)
     {
+        // Search with Enter (unless in the RTB_Instructions which uses Enter for newlines)
+        if (e.KeyCode == Keys.Enter)
+        {
+            if (RTB_Instructions.Focused)
+                return;
+
+            B_Search_Click(this, EventArgs.Empty);
+            e.Handled = true;
+        }
+
         // Quick close with Ctrl+W
         if (e.KeyCode == Keys.W && ModifierKeys == Keys.Control)
             Hide();
@@ -91,7 +104,12 @@ public partial class EntitySearchSetup : Form
     {
         SearchFilter = UC_EntitySearch.GetFilter(RTB_Instructions.Text);
         SearchRequested?.Invoke(this, EventArgs.Empty);
-        System.Media.SystemSounds.Asterisk.Play();
+
+        // Automatically seek to first match
+        if (SearchFilter is not null && SaveEditor is not null)
+        {
+            SaveEditor.Box.SeekNext(SearchFilter);
+        }
     }
 
     private void B_Reset_Click(object? sender, EventArgs e)
@@ -120,6 +138,22 @@ public partial class EntitySearchSetup : Form
         if (batchText.Length != 0 && !batchText.EndsWith('\n'))
             tb.AppendText(Environment.NewLine);
         tb.AppendText(s);
+    }
+
+    private void B_Previous_Click(object? sender, EventArgs e)
+    {
+        if (SearchFilter is not null && SaveEditor is not null)
+        {
+            SaveEditor.Box.SeekPrevious(SearchFilter);
+        }
+    }
+
+    private void B_Next_Click(object? sender, EventArgs e)
+    {
+        if (SearchFilter is not null && SaveEditor is not null)
+        {
+            SaveEditor.Box.SeekNext(SearchFilter);
+        }
     }
 
     public bool IsSameSaveFile(SaveFile sav) => CurrentSave is not null && CurrentSave == sav;

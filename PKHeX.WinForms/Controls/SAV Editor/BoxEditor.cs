@@ -374,4 +374,18 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
         BoxPokeGrid.Entries[result.Slot].Focus();
         System.Media.SystemSounds.Asterisk.Play();
     }
+
+    public void SeekPrevious(Func<PKM, bool> searchFilter)
+    {
+        // Search from previous box, wrapping around backwards
+        if (!SearchUtil.TrySeekPrevious(SAV, searchFilter, out var result, CurrentBox))
+        {
+            // Not found
+            System.Media.SystemSounds.Exclamation.Play();
+            return;
+        }
+        CurrentBox = result.Box;
+        BoxPokeGrid.Entries[result.Slot].Focus();
+        System.Media.SystemSounds.Asterisk.Play();
+    }
 }

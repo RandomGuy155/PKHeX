@@ -1582,7 +1582,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             location.X += parent.Width;
             _searchForm.StartPosition = FormStartPosition.Manual;
             _searchForm.Location = location;
-            _searchForm.TopMost = true;
+            _searchForm.Owner = parent;
         }
 
         _searchForm.Show();
@@ -1593,7 +1593,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     {
         BoxSearchClear();
         var result = new EntitySearchSetup();
-        result.Initialize(sav, edit);
+        result.Initialize(sav, edit, this);
 
         result.ResetRequested += UpdateSearch;
         result.SearchRequested += UpdateSearch;
