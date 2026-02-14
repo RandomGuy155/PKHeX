@@ -88,6 +88,20 @@ public static class EncounterServerDate
     /// </summary>
     private static readonly Dictionary<int, DistributionWindow> WC8GiftsChk = new()
     {
+        // JAP
+        {0x9D48, new(2020, 11, 01, 2022, 01, 31)}, // Happy Birthday Milcery(Ribbon Sweet) ver. 1
+        {0x5DF4, new(2020, 11, 01, 2022, 01, 31)}, // Happy Birthday Milcery(Star Sweet) ver. 1
+        {0x4081, new(2022, 02, 21)}, // Crown Tundra's Shiny Galarian Articuno
+        {0x4A04, new(2022, 03, 14)}, // Wild Area's Shiny Galarian Zapdos
+        {0x3A11, new(2022, 04, 18)}, // Isle of Armor's Shiny Galarian Moltres
+
+        // MISC./Other
+        {0x33ED, new(2020, 11, 06, 2022, 01, 31)}, // Happy Birthday Milcery(Ribbon Sweet) ver. 2
+        {0xF351, new(2020, 11, 06, 2022, 01, 31)}, // Happy Birthday Milcery(Star Sweet) ver. 2
+        {0xDD77, new(2022, 02, 21)}, // Crown Tundra's Shiny Galarian Articuno
+        {0xD7F2, new(2022, 03, 14)}, // Wild Area's Shiny Galarian Zapdos
+        {0xA7E7, new(2022, 04, 18)}, // Isle of Armor's Shiny Galarian Moltres
+        
         // HOME 1.0.0 to 2.0.2 - PID, EC, Height, Weight = 0 (rev 1)
         {0xFBBE, HOME1}, // Bulbasaur
         {0x48F5, HOME1}, // Charmander
@@ -114,6 +128,80 @@ public static class EncounterServerDate
     /// </summary>
     private static readonly Dictionary<int, DistributionWindow> WC8Gifts = new()
     {
+        {1601, new(2019, 11, 15, 2020, 01, 15)}, // Trainer Meowth (Gmax) - Early purchase bonus
+        {2001, new(2019, 11, 15)},               // Trainer Mew - Poké Ball Plus
+        {0101, new(2019, 11, 15, 2021, 01, 31)}, // ポケセン Pikachu & Eevee (Ver 1 & Ver 2) - Pokemon Center Birthday
+        {0107, new(2019, 12, 21, 2020, 01, 31)}, // Gigantamax Snorlax - Jump Festa '20
+        {0115, new(2020, 01, 19, 2020, 02, 29)}, // Trainer Coalossal (Gmax) - Winter 2020 World Hobby Fair
+        {0116, new(2020, 01, 19, 2020, 02, 29)}, // Trainer Lapras (Gmax) - Winter 2020 World Hobby Fair
+        {1616, new(2020, 05, 21, 2020, 05, 28)}, // Trainer Mr. Mime (Galar)
+        {1618, new(2020, 05, 29, 2020, 06, 04)}, // Trainer Ponyta (Galar)
+        {1620, new(2020, 06, 05, 2020, 06, 11)}, // Trainer Corsola (Galar)
+        {1622, new(2020, 06, 12, 2020, 06, 16)}, // Trainer Meowth (Galar)
+        {0108, new(2020, 08, 07, 2020, 12, 24)}, // Jungle Shiny Celebi (Japanese Release) - Pre-book tickets
+        {0109, new(2020, 08, 07, 2020, 12, 24)}, // Jungle Zarude (Japanese Release) - Pre-book tickets
+        {1008, new(2020, 08, 09, 2020, 08, 10)}, // 백종윤 Shiny Amoonguss - Korean Trainer's Cup
+        {0505, new(2020, 08, 22)},               // VGC20 Porygon2
+        {1007, new(2020, 09, 30, 2020, 10, 15)}, // 지우 Charizard (Ash's Charizard) - Korean movie
+        {1627, new(2020, 10, 30, 2020, 11, 30)}, // Ash Pikachu (Original Cap)
+        {1628, new(2020, 10, 30, 2020, 11, 30)}, // Ash Pikachu (Hoenn Cap)
+        {1629, new(2020, 10, 30, 2020, 11, 30)}, // Ash Pikachu (Sinnoh Cap)
+        {1630, new(2020, 10, 30, 2020, 11, 30)}, // Ash Pikachu (Unova Cap)
+        {1631, new(2020, 10, 30, 2020, 11, 30)}, // Ash Pikachu (Kalos Cap)
+        {1632, new(2020, 10, 30, 2020, 11, 30)}, // Ash Pikachu (Alola Cap)
+        {1633, new(2020, 10, 30, 2020, 11, 30)}, // Ash Pikachu (Partner Cap)
+        {1634, new(2020, 10, 30, 2020, 11, 30)}, // Ash Pikachu (World Cap)
+        {0121, new(2020, 10, 31, 2020, 11, 30)}, // カ・エール Gastrodon (East)
+        {0118, new(2020, 11, 06, 2021, 11, 05)}, // PCSG Pikachu & Eevee
+        {0125, new(2020, 11, 06, 2021, 11, 05)}, // PCSG Milcery
+        {0127, new(2020, 11, 20, 2021, 03, 31)}, // ゲッチャレ Genesect
+        {0128, new(2020, 11, 20, 2021, 03, 31)}, // ゲッチャレ Volcanion
+        {0129, new(2020, 11, 20, 2021, 03, 31)}, // ゲッチャレ Marshadow
+        {0124, new(2020, 12, 19, 2021, 01, 11)}, // ラッキー Chansey - Mister Donut
+        {0507, new(2020, 12, 17, 2021, 02, 28)}, // Jungle Zarude (Western Release) - Newsletter
+        {0110, new(2020, 12, 25, 2021, 02, 28)}, // Jungle Zarude Dada (Japanese Release) - Movie attendance
+        {1635, new(2020, 12, 31, 2021, 01, 15)}, // KIBO Pikachu
+        {0509, new(2021, 02, 19, 2021, 03, 19)}, // Rock Star Shiny Toxtricity
+        {1636, new(2021, 02, 25, 2021, 03, 25)}, // GF Pikachu - P25 Music Campaign
+        {1012, new(2021, 04, 26, 2021, 10, 31)}, // 어드벤처 Genesect - Korea distribution
+        {1013, new(2021, 04, 26, 2021, 10, 31)}, // 어드벤처 Volcanion - Korea distribution
+        {1014, new(2021, 04, 26, 2021, 10, 31)}, // 어드벤처 Marshadow - Korea distribution
+        {1641, new(2021, 06, 17, 2021, 06, 30)}, // HOME Bulbasaur (Gmax)
+        {1642, new(2021, 06, 17, 2021, 06, 30)}, // HOME Squirtle (Gmax)
+        {0137, new(2021, 07, 18, 2021, 07, 19)}, // クララ Torkoal - PJCS 2020 Champion
+        {0514, new(2021, 08, 13, 2021, 08, 15)}, // Wolfe Coalossal (Gmax) - Players Cup Invitational
+        {1023, new(2021, 08, 21, 2021, 08, 22)}, // 정상윤 Porygon-Z - Trainers Cup 2021
+        {0520, new(2021, 10, 07, 2021, 11, 30)}, // Jungle Shiny Celebi (Western Release) - Newsletter
+        {0521, new(2021, 10, 07, 2021, 11, 30)}, // Jungle Zarude Dada (Western Release) - Newsletter
+        {1024, new(2021, 10, 14, 2021, 12, 31)}, // Jungle Shiny Celebi (Korean Release)
+        {1025, new(2021, 10, 14, 2021, 12, 31)}, // Jungle Zarude (Korean Release)
+        {1026, new(2021, 10, 14, 2021, 12, 31)}, // Jungle Zarude Dada (Korean Release)
+        {1639, new(2021, 10, 22, 2022, 02, 28)}, // Lancer Shiny Zacian - Various regions, staggered
+        {1640, new(2021, 10, 22, 2022, 02, 28)}, // Arthur Shiny Zamazenta - Various regions, staggered
+        {0522, new(2022, 10, 31, 2022, 11, 03)}, // Leonardo Charizard (Gmax) - Global Exhibition
+        {0138, new(2021, 11, 01, 2022, 10, 31)}, // Pokémon Center Birthday Happiny
+        {0523, new(2022, 04, 22, 2022, 04, 25)}, // Marco Dracovish - Europe International Championships
+        {0140, new(2022, 06, 11, 2022, 06, 12)}, // コウ Sableye - Japan Championships 2022
+        {1027, new(2022, 06, 11, 2022, 06, 12)}, // 정원석 Grimmsnarl - Trainers Cup 2022
+        {0141, new(2022, 06, 18, 2022, 06, 19)}, // Jirawiwat Shiny Clefairy - Asia Championships 2022
+        {0524, new(2022, 06, 24, 2022, 06, 27)}, // Eric Gastrodon (East) - North America International Championships
+        {0142, new(2022, 08, 11, 2022, 09, 30)}, // アルトマーレ Latias - Pokémon Heroes screening
+        {0145, new(2022, 08, 11, 2022, 09, 30)}, // サトシ Pikachu (World Cap) - Film Fest
+        {0146, new(2022, 08, 12, 2022, 08, 25)}, // サトシ Dracovish
+        {1644, new(2022, 08, 18, 2022, 08, 22)}, // Victory Victini - WCS 2022
+        {0525, new(2022, 08, 18, 2022, 08, 21)}, // WCS22 Sinistea (Antique) - World Championships
+        {0143, new(2022, 08, 19, 2022, 09, 30)}, // ネガイボシ Jirachi - Jirachi Wish Maker screening
+        {0144, new(2022, 08, 26, 2022, 09, 30)}, // アラモス Dialga/Palkia - Rise of Darkrai screening
+        {0147, new(2022, 08, 26, 2022, 09, 08)}, // サトシ Dragonite
+        {0148, new(2022, 09, 02, 2022, 09, 15)}, // サトシ Gengar (Gmax)
+        {0151, new(2022, 09, 03, 2022, 09, 30)}, // おつきみ２２ Clefairy - Otsukimi Festival
+        {0526, new(2022, 09, 09, 2023, 01, 01)}, // Mythical22 Genesect
+        {0527, new(2022, 09, 09, 2023, 01, 01)}, // Mythical22 Volcanion
+        {0528, new(2022, 09, 09, 2023, 01, 01)}, // Mythical22 Marshadow
+        {0149, new(2022, 09, 09, 2022, 09, 22)}, // サトシ Sirfetch'd
+        {1643, new(2022, 09, 16, 2023, 01, 01)}, // Galar Shiny Eternatus
+        {0150, new(2022, 09, 16, 2022, 09, 29)}, // サトシ Lucario
+
         {9008, new(2020, 06, 02)}, // Hidden Ability Grookey
         {9009, new(2020, 06, 02)}, // Hidden Ability Scorbunny
         {9010, new(2020, 06, 02)}, // Hidden Ability Sobble

@@ -550,8 +550,6 @@ public sealed class WC8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
     private DateOnly GetSuggestedDate()
     {
-        if (!IsDateRestricted)
-            return EncounterDate.GetDateSwitch();
         if (this.GetDistributionWindow(out var window))
             return window.GetGenerateDate();
         return EncounterDate.GetDateSwitch();
